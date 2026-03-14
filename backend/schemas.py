@@ -114,3 +114,17 @@ class AISuggestionOut(BaseModel):
     suggestion_type: Optional[str] = None
     suggestion_text: Optional[str] = None
     created_at: Optional[datetime] = None
+
+
+class ExtractMessage(BaseModel):
+    """Sent by frontend AI sidebar to extract/update form fields."""
+    message: str
+    # Current form state — so AI can apply corrections on top
+    current_fields: Optional[Any] = None
+
+class ExtractResponse(BaseModel):
+    """AI reply + extracted/updated fields — form is NOT saved yet."""
+    reply: str                          # conversational AI message
+    fields: Optional[Any] = None        # filled form fields dict
+    ask_followup: Optional[str] = None  # follow-up question AI wants to ask
+    ready_to_submit: bool = False       # True if user said "submit"

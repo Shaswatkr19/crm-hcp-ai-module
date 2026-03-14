@@ -26,7 +26,12 @@ export const addInteraction = createAsyncThunk(
     try {
       return await createInteraction(data)
     } catch (err) {
-      return rejectWithValue(err.response?.data?.detail || 'Failed to create')
+      // FastAPI 422 returns detail as array of validation errors
+      const detail = err.response?.data?.detail
+      if (Array.isArray(detail)) {
+        return rejectWithValue(detail)
+      }
+      return rejectWithValue(detail || err.message || 'Failed to create')
     }
   }
 )

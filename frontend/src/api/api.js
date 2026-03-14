@@ -38,3 +38,6 @@ export const summarizeHCP = (hcp_name) =>
 
 export const recommendForHCP = (hcp_name) =>
   api.get(`/agent/recommend/${encodeURIComponent(hcp_name)}`).then(r => r.data)
+
+export const extractFields = (message, current_fields = null) =>
+  api.post('/agent/extract', { message, current_fields }).then(r => r.data)
